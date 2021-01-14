@@ -1,2 +1,2 @@
-# leetcode-practice
-a record for algorithm practice
+# FE-NOTES
+a record for web-front-end study
