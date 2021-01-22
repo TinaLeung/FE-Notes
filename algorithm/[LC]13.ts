@@ -15,24 +15,32 @@
 1 <= n,m <= 100
 0 <= k <= 20
  */
-// 到达的格子[x,y]满足的条件：x+y<=k
+// 深度遍历 从[0,0]格子开始往右上走
 function movingCount(m: number, n: number, k: number): number {
     let count = 0
-    const tt = []
-    for (let i = 0; i < m; i++) {
-        const sum_i = i.toString().split('').map(v => parseInt(v)).reduce((p, c) => (p + c))
-        if (sum_i > k) break
-        for (let j = 0; j < n; j++) {
-            const sum_j = j.toString().split('').map(v => parseInt(v)).reduce((p, c) => (p + c))
-            if (sum_i + sum_j <= k) {
-                tt.push([i, j])
-                count++
-            } else {
-                break
-            }
+    let arr = new Array<number[]>()
+    let visited = new Array(m).fill([]).map(v => new Array(n).fill(false))
+    arr.push([0, 0])
+    while(arr.length > 0) {
+        const item = arr.shift()
+        const x = item[0]
+        const y = item[1]
+        if( (!visited[x][y]) && (digitSum(x) + digitSum(y) <= k)) {
+            count++
+            visited[x][y] = true;
+            (x + 1) < m && arr.push([x + 1, y]);
+            (y + 1) < n && arr.push([x, y + 1])
         }
     }
-    console.log(tt)
 
     return count
 };
+function digitSum(n) {
+    let num = n
+    let sum = 0
+    while(num !== 0) {
+        sum += num % 10
+        num = Math.floor(num / 10)
+    }
+    return sum
+}
